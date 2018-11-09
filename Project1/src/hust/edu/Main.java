@@ -17,6 +17,7 @@ public class Main {
 		data.getListClass();
 		data.getListStudentAndClass();
 		data.getListTeacher();
+		data.getListCourse();
 		Scanner scanner = new Scanner(System.in);
 		int k;
 		do {
@@ -213,6 +214,48 @@ public class Main {
 					}
 
 				} while (t != 6);
+				break;
+			case 4:
+				int fo;
+				do {
+					System.out.println(
+							"\n1. In danh sach hoc phan       2. Them hoc phan       3. Tim hoc phan      4. Thoat");
+					System.out.println("Nhap vao so ban muon thuc hien :");
+					fo = scanner.nextInt();
+					String courseId;
+					String courseName;
+					int credit;
+					Course course;
+					switch (fo) {
+					case 1:
+						System.out.println("Danh sach hoc phan : ");
+						data.printListCourse();
+						break;
+					case 2:
+						System.out.println("Nhap vao ten hoc phan : ");
+						scanner.nextLine();
+						courseName = scanner.nextLine();
+						System.out.println("Nhap vao ma hoc phan : ");
+						courseId = scanner.nextLine();
+						System.out.println("Nhap vao so tin chi : ");
+						credit = scanner.nextInt();
+						data.addCourse(courseName, courseId, credit);
+						break;
+					case 3:
+						System.out.println("Nhap vao ma hoc phan : ");
+						scanner.nextLine();
+						courseId = scanner.nextLine();
+						course = data.getCourseById(courseId);
+						if (course == null)
+							System.out.println("Khong tim thay hoc phan nao!");
+						else {
+							System.out.println("Hoc phan tim thay : ");
+							data.printDetailCourse(course);
+						}
+						
+					}
+
+				} while (fo != 4);
 				break;
 
 			}

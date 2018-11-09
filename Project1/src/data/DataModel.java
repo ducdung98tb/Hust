@@ -22,6 +22,7 @@ public class DataModel {
 	private List<Student> studentOfClass = new ArrayList<Student>();
 	private List<Class> classOfTeacher = new ArrayList<Class>();
 	private List<Student> studentOfTeacher = new ArrayList<Student>();
+	private List<Class> classOfCourse = new ArrayList<Class>();
 
 	public List<Student> getListStudent() {
 		if (this.students.isEmpty()) {
@@ -59,7 +60,7 @@ public class DataModel {
 	public List<Class> getListClass() {
 		if (this.classes.isEmpty()) {
 			classes.add(new Class("Lap trinh huong doi tuong 01", "R1", "104", "hungnt", "C1"));
-			classes.add(new Class("Ki thuat lap trinh 01", "R2", "104", "khanhpk", "C1"));
+			classes.add(new Class("Ki thuat lap trinh 01", "R2", "104", "khanhpk", "C2"));
 			classes.add(new Class("Co so du lieu 01", "R3", "102", "anhptk", "C3"));
 			classes.add(new Class("Cau truc du lieu va giai thuat 01", "R4", "104", "khanhpk", "C4"));
 		}
@@ -76,12 +77,15 @@ public class DataModel {
 			studentAndClass.add(new StudentAndClass("20160658", "R2"));
 			studentAndClass.add(new StudentAndClass("20160658", "R3"));
 			studentAndClass.add(new StudentAndClass("20160659", "R1"));
+			studentAndClass.add(new StudentAndClass("20160659", "R4"));
 			studentAndClass.add(new StudentAndClass("20160660", "R4"));
 			studentAndClass.add(new StudentAndClass("20160661", "R1"));
+			studentAndClass.add(new StudentAndClass("20160661", "R2"));
+			studentAndClass.add(new StudentAndClass("20160662", "R3"));
 		}
 		return studentAndClass;
 	}
-	
+
 	public Student getStudentById(String studentId) {
 		for (Student student : this.students)
 			if (student.getPersonId().equals(studentId))
@@ -125,11 +129,13 @@ public class DataModel {
 
 	public List<Student> addStudent(String studentName, String studentId, String teacherId) {
 		this.students.add(new Student(studentName, studentId, teacherId));
+		System.out.println("Them sinh vien thanh cong!");
 		return students;
 	}
 
 	public List<Student> removeStudent(Student student) {
 		students.remove(student);
+		System.out.println("Xoa sinh vien thanh cong!");
 		if (this.students.isEmpty())
 			return null;
 		else
@@ -180,11 +186,13 @@ public class DataModel {
 
 	public List<Class> addClass(String ClassName, String classId, String classRoom, String teacherId, String courseId) {
 		this.classes.add(new Class(ClassName, classId, classRoom, teacherId, courseId));
+		System.out.println("Them lop thanh cong!");
 		return classes;
 	}
 
 	public List<Class> removeClass(Class classs) {
 		classes.remove(classs);
+		System.out.println("Xoa lop thanh cong!");
 		if (this.classes.isEmpty())
 			return null;
 		else
@@ -256,11 +264,13 @@ public class DataModel {
 
 	public List<Teacher> addTeacher(String teacherName, String teacherId, String department) {
 		this.teachers.add(new Teacher(teacherName, teacherId, department));
+		System.out.println("Them giang vien thanh cong!");
 		return teachers;
 	}
 
 	public List<Teacher> removeTeacher(Teacher teacher) {
 		teachers.remove(teacher);
+		System.out.println("Xoa giang vien thanh cong");
 		if (this.teachers.isEmpty())
 			return null;
 		else
@@ -278,6 +288,7 @@ public class DataModel {
 		else
 			return classOfTeacher;
 	}
+
 	public List<Student> getStudentOfTeacher(Teacher teacher) {
 		studentOfTeacher = new ArrayList<Student>();
 		for (Student student : students) {
@@ -289,6 +300,7 @@ public class DataModel {
 		else
 			return studentOfTeacher;
 	}
+
 	public void printDetailInfoTeacher(Teacher teacher) {
 		int i = 1;
 		int j = 1;
@@ -296,25 +308,64 @@ public class DataModel {
 		teacher.printInfoTeacher();
 		this.getClassOfTeacher(teacher);
 		this.getStudentOfTeacher(teacher);
-		if(classOfTeacher.isEmpty()) 
+		if (classOfTeacher.isEmpty())
 			System.out.println("Giang vien nay khong day lop nao!");
 		else {
 			System.out.println("Cac lop giang vien dang day la : ");
-			for(Class classs : classOfTeacher) {
+			for (Class classs : classOfTeacher) {
 				System.out.println(i + ".");
 				classs.printfInfoClass();
 				i++;
 			}
 		}
-		if(studentOfTeacher.isEmpty())
+		if (studentOfTeacher.isEmpty())
 			System.out.println("Giang vien nay khong huong dan sinh vien nao!");
 		else {
 			System.out.println("Cac sinh vien giang vien huong dan la : ");
-			for(Student student : studentOfTeacher) {
+			for (Student student : studentOfTeacher) {
 				System.out.println(j + ".");
 				student.printInfoStudent();
 				j++;
 			}
+		}
+	}
+
+	public void printListCourse() {
+		int i = 1;
+		for (Course course : courses) {
+			System.out.println(i + ".");
+			course.printInfoCourse();
+			i++;
+		}
+	}
+
+	public List<Course> addCourse(String courseName, String courseId, int credit) {
+		this.courses.add(new Course(courseName, courseId, credit));
+		System.out.println("Them hoc phan thanh cong!");
+		return courses;
+	}
+
+	public List<Class> getClassOfCourse(Course course) {
+		classOfCourse = new ArrayList<Class>();
+		for (Class classs : classes) {
+			if (classs.getCourseId() == course.getCourseId())
+				classOfCourse.add(classs);
+		}
+		if (classOfCourse.isEmpty())
+			return null;
+		else
+			return classOfCourse;
+	}
+
+	public void printDetailCourse(Course course) {
+		int i = 1;
+		this.getClassOfCourse(course);
+		course.printInfoCourse();
+		System.out.println("Cac lop thuoc hoc phan nay : ");
+		for (Class classs : classOfCourse) {
+			System.out.println(i + ".");
+			classs.printfInfoClass();
+			i++;
 		}
 	}
 
